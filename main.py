@@ -1,21 +1,15 @@
 """`main` is the top level module for your Flask application."""
 
-
 from flask import Flask
 from flask import render_template
-from flask.ext.assets import Environment, Bundle
 
 from google.appengine.api import urlfetch
 from google.appengine.ext import db
 #from google.appengine.api.app_identity import app_identity
 
-
 from models.status_check import StatusCheck
 
-
 app = Flask(__name__)
-
-
 
 @app.route('/')
 def hello():
