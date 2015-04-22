@@ -1,4 +1,4 @@
 cron:
 - description: every day
   url: /status_check
-  schedule: every 1 days
+  schedule: every 24 hours
