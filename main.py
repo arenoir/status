@@ -3,6 +3,7 @@
 
 from flask import Flask
 from flask import render_template
+from flask.ext.assets import Environment, Bundle
 
 from google.appengine.api import urlfetch
 from google.appengine.ext import db
@@ -14,11 +15,6 @@ from models.status_check import StatusCheck
 
 app = Flask(__name__)
 
-#from flask.ext.assets import Environment, Bundle
-# assets = Environment(app)
-# assets.url = app.static_url_path
-# scss = Bundle('assets/sass/application.scss', filters='pyscss', output='application.css')
-# assets.register('scss_all', scss)
 
 
 @app.route('/')
