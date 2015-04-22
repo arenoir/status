@@ -1,19 +1,44 @@
 """`main` is the top level module for your Flask application."""
 
-# Import the Flask Framework
+
 from flask import Flask
 from flask import render_template
 
+from google.appengine.api import urlfetch
+from google.appengine.ext import db
+#from google.appengine.api.app_identity import app_identity
+
+
+from models.status_check import StatusCheck
+
+
 app = Flask(__name__)
-# Note: We don't need to call run() since our application is embedded within
-# the App Engine WSGI application server.
+
+#from flask.ext.assets import Environment, Bundle
+# assets = Environment(app)
+# assets.url = app.static_url_path
+# scss = Bundle('assets/sass/application.scss', filters='pyscss', output='application.css')
+# assets.register('scss_all', scss)
 
 
 @app.route('/')
 def hello():
-    """Return a friendly HTTP greeting."""
-    return render_template('index.html')
+  status_checks = db.GqlQuery("SELECT * FROM StatusCheck")
+  return render_template('index.html', status="ok", status_checks=status_checks)
 
+
+@app.route('/status_check')
+def status_check():
+  url = "https://fieldphone.com/"
+  result = urlfetch.fetch(url)
+  code = result.status_code
+  status = 'ok'
+  if result.status_code != 200:
+    status = 'not_ok'
+
+  check = StatusCheck(url=url, code=code, latency=300)
+  check.put()
+  return status
 
 @app.errorhandler(404)
 def page_not_found(e):
