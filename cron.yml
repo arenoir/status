@@ -1,4 +1,4 @@
-# cron:
-# - description: every five minutes
-#   url: /status_check
-#   schedule: every 5 minutes
+cron:
+- description: every day
+  url: /status_check
+  schedule: every 1 days
